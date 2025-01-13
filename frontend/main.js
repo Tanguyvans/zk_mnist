@@ -117,7 +117,7 @@ document.getElementById("imageInput").addEventListener("change", (event) => {
   }
 });
 
-document.getElementById('submitGuess').addEventListener('click', async () => {
+document.getElementById('submit').addEventListener('click', async () => {
   try {
     const backend = new BarretenbergBackend(circuit);
     const noir = new Noir(circuit);

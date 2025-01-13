@@ -1,37 +1,56 @@
 <!DOCTYPE html>
 <head>
-  <style>
-    .outer {
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-    }
-    .inner {
-        width: 45%;
-        border: 1px solid black;
-        padding: 10px;
-        word-wrap: break-word;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Ajoutez le lien vers votre CSS compilé de Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="p-6 bg-gray-50">
   <script type="module" src="/main.js"></script>
-  <h1>Noir app</h1>
-  <div class="input-area">
-    <input id="guessInput" type="number" placeholder="Enter your guess" />
-    <div class="input-area">
-      <input type="file" id="imageInput" accept="image/*" />
-      <canvas id="preview" width="28" height="28"></canvas>
-      <button id="submitGuess">Submit</button>
-      <button id="verifyProof">Verify Proof</button>
+  
+  <h1 class="text-3xl font-bold mb-8 text-gray-800">Noir app</h1>
+  
+  <div class="space-y-4 mb-8">
+    <div class="flex flex-col gap-4">
+      <div class="flex items-center gap-4">
+        <input 
+          type="file" 
+          id="imageInput" 
+          accept="image/*"
+          class="file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-500 file:text-white hover:file:bg-blue-600"
+        />
+        <canvas 
+          id="preview" 
+          width="28" 
+          height="28"
+          class="border border-gray-300 rounded"
+        ></canvas>
+        <button 
+          id="submit"
+          class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+        >
+          Submit
+        </button>
+        <button 
+          id="verifyProof"
+          class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
+        >
+          Verify Proof
+        </button>
+      </div>
     </div>
-    <div id="logs"></div>
-    <div id="results"></div>
-    <button id="submitGuess">Submit Guess</button>
   </div>
-  <div class="outer">
-    <div id="logs" class="inner"><h2>Logs</h2></div>
-    <div id="results" class="inner"><h2>Proof</h2></div>
+
+  <div class="flex justify-between gap-8">
+    <div class="w-1/2 p-6 bg-white rounded-lg shadow-md">
+      <h2 class="text-xl font-semibold mb-4 text-gray-700">Logs</h2>
+      <div id="logs" class="break-words"></div>
+    </div>
+    
+    <div class="w-1/2 p-6 bg-white rounded-lg shadow-md">
+      <h2 class="text-xl font-semibold mb-4 text-gray-700">Proof</h2>
+      <div id="results" class="break-words"></div>
+    </div>
   </div>
 </body>
 </html>
