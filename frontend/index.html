@@ -8,7 +8,19 @@
 <body class="p-6 bg-gray-50">
   <script type="module" src="/main.js"></script>
   
-  <h1 class="text-3xl font-bold mb-8 text-gray-800">Noir app</h1>
+  <header class="flex justify-between items-center mb-8 px-4 py-3 bg-white shadow-sm rounded-lg">
+    <h1 class="text-3xl font-bold text-gray-800">Noir app</h1>
+    
+    <div class="flex items-center gap-4">
+      <button 
+        id="connectWallet"
+        class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+      >
+        Connect Wallet
+      </button>
+      <span id="walletAddress" class="text-gray-600"></span>
+    </div>
+  </header>
   
   <div class="space-y-4 mb-8">
     <div class="flex flex-col gap-4">
