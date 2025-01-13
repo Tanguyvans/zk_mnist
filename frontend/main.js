@@ -35,7 +35,8 @@ let state = {
   currentProof: null,
   currentPublicInputs: null,
   currentFile: null,
-  currentWallet: null
+  currentWallet: null,
+  isConnected: false
 };
 
 // Utilitaires
@@ -127,26 +128,42 @@ async function handleSubmit() {
   }
 }
 
-async function connectWallet() {
-  try {
-    if (!window.ethereum) {
-      throw new Error('Please install MetaMask');
-    }
+async function toggleWallet() {
+  if (state.isConnected) {
+    // Déconnexion
+    state.currentWallet = null;
+    state.isConnected = false;
+    document.getElementById('walletAddress').textContent = '';
+    document.getElementById('connectWallet').textContent = 'Connect Wallet';
+    document.getElementById('connectWallet').classList.remove('bg-red-600', 'hover:bg-red-700');
+    document.getElementById('connectWallet').classList.add('bg-purple-600', 'hover:bg-purple-700');
+    display('logs', 'Wallet disconnected ✅');
+  } else {
+    // Connexion
+    try {
+      if (!window.ethereum) {
+        throw new Error('Please install MetaMask');
+      }
 
-    display('logs', 'Connecting to wallet...');
-    const provider = new ethers.BrowserProvider(window.ethereum);
-    const signer = await provider.getSigner();
-    const address = await signer.getAddress();
-    state.currentWallet = address;
-    
-    document.getElementById('walletAddress').textContent = 
-      `${address.slice(0, 6)}...${address.slice(-4)}`;
-    document.getElementById('connectWallet').textContent = 'Connected';
-    
-    display('logs', 'Wallet connected successfully! ✅');
-  } catch (err) {
-    console.error(err);
-    display('logs', 'Error connecting wallet: ' + err.message);
+      display('logs', 'Connecting to wallet...');
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
+      const address = await signer.getAddress();
+      
+      state.currentWallet = address;
+      state.isConnected = true;
+      
+      document.getElementById('walletAddress').textContent = 
+        `${address.slice(0, 6)}...${address.slice(-4)}`;
+      document.getElementById('connectWallet').textContent = 'Disconnect';
+      document.getElementById('connectWallet').classList.remove('bg-purple-600', 'hover:bg-purple-700');
+      document.getElementById('connectWallet').classList.add('bg-red-600', 'hover:bg-red-700');
+      
+      display('logs', 'Wallet connected successfully! ✅');
+    } catch (err) {
+      console.error(err);
+      display('logs', 'Error connecting wallet: ' + err.message);
+    }
   }
 }
 
@@ -179,5 +196,5 @@ async function verifyProof() {
 // Event Listeners
 document.getElementById("imageInput").addEventListener("change", handleImageSelect);
 document.getElementById('submit').addEventListener('click', handleSubmit);
-document.getElementById('connectWallet').addEventListener('click', connectWallet);
+document.getElementById('connectWallet').addEventListener('click', toggleWallet);
 document.getElementById('verifyProof').addEventListener('click', verifyProof);
