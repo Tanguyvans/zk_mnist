@@ -20,29 +20,49 @@ const wasmContentTypePlugin = {
 };
 
 export default defineConfig(({ command }) => {
+  const config = {
+    base: './',
+    build: {
+      target: 'esnext',
+      rollupOptions: {
+        external: ['@aztec/bb.js'],
+        output: {
+          format: 'es'
+        }
+      }
+    },
+    optimizeDeps: {
+      esbuildOptions: {
+        target: 'esnext'
+      }
+    },
+    esbuild: {
+      target: 'esnext',
+      supported: {
+        'top-level-await': true
+      }
+    }
+  };
+
   if (command === 'serve') {
-    return {
-      build: {
-        target: 'esnext',
-        rollupOptions: {
-          external: ['@aztec/bb.js']
-        }
-      },
-      optimizeDeps: {
-        esbuildOptions: {
-          target: 'esnext'
-        }
-      },
-      plugins: [
-        copy({
-          targets: [{ src: 'node_modules/**/*.wasm', dest: 'node_modules/.vite/dist' }],
-          copySync: true,
-          hook: 'buildStart',
-        }),
-        command === 'serve' ? wasmContentTypePlugin : [],
-      ],
-    };
+    config.plugins = [
+      copy({
+        targets: [{ src: 'node_modules/**/*.wasm', dest: 'node_modules/.vite/dist' }],
+        copySync: true,
+        hook: 'buildStart',
+      }),
+      wasmContentTypePlugin
+    ];
+  } else {
+    // Configuration pour le build
+    config.plugins = [
+      copy({
+        targets: [{ src: 'node_modules/**/*.wasm', dest: 'dist' }],
+        copySync: true,
+        hook: 'buildStart',
+      })
+    ];
   }
 
-  return {};
+  return config;
 });
