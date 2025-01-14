@@ -1,0 +1,22 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main] # Se déclenche quand on pousse sur main
+  workflow_dispatch: # Permet aussi le déclenchement manuel
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Nécessaire pour déployer sur gh-pages
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: . # Déploie le dossier racine
+          branch: gh-pages # Sur la branche gh-pages
+          clean: true # Nettoie les anciens fichiers
