@@ -1,4 +1,11 @@
-import circuit from './circuit.json';
+// Charger d'abord le circuit avec fetch
+let circuit;
+const loadCircuit = async () => {
+  const response = await fetch('./circuit.json');
+  circuit = await response.json();
+};
+await loadCircuit();
+
 import { BarretenbergBackend } from '@noir-lang/backend_barretenberg';
 import { Noir } from '@noir-lang/noir_js';
 import { ethers } from 'ethers';
