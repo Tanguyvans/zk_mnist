@@ -1,4 +1,4 @@
-import circuit from './circuit.json' assert { type: "json" };
+import circuit from './circuit.json';
 import { BarretenbergBackend } from '@noir-lang/backend_barretenberg';
 import { Noir } from '@noir-lang/noir_js';
 import { ethers } from 'ethers';
